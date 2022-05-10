@@ -81,10 +81,19 @@ async function run() {
         // add new item
         app.post('/additem', async (req, res) => {
             const newItems = req.body;
-            const result = await userCollection.insertOne(newItems);
+            const result = await leptopsCollection.insertOne(newItems);
             res.send(result);
         });
         
+        // user added items
+        app.get('/additem', async (req, res) => {
+            const email = req.query.email; 
+            console.log(email);          
+            const query = { email: email }
+            const cursor = leptopsCollection.find(query)
+            const myItems = await cursor.toArray()
+            res.send(myItems)       
+        })
     }
     finally{
 
