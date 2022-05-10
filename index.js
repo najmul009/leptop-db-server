@@ -36,6 +36,38 @@ async function run() {
             const item = await leptopsCollection.findOne(query);
             res.send(item);
         });
+
+        // Update stock quantity
+        app.put('/inventory/:id', async (req, res) => {
+            const id = req.params.id;
+            const updateFruits = req.body;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updated = {
+                $set: {
+                    quantity: updateFruits.quantity
+                }
+            };
+            const result = await leptopsCollection.updateOne(filter, updated, options);
+            res.send(result);
+        })
+
+        // Deliver items PUT
+        app.put('/inventory/deliver/:id', async (req, res) => {
+            const id = req.params.id
+            const newQuantity = req.body
+            const deliver = newQuantity.quantityUpdate - 1
+            const query = { _id: ObjectId(id) }
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    quantity: deliver
+                }
+            }
+
+            const result = await leptopsCollection.updateOne(query, updateDoc, options)
+            res.send(result);
+        });
         
     }
     finally{
