@@ -19,6 +19,7 @@ async function run() {
     try{
         await client.connect()
         const leptopsCollection = client.db("leptop-house").collection("leptop-db")
+        const userCollection = client.db("leptop-house").collection("user-db")
 
         //all item
         app.get('/inventory', async (req, res) => {
@@ -75,6 +76,13 @@ async function run() {
             const query={_id:ObjectId(id)};
             const result=await leptopsCollection.deleteOne(query);
             res.send(result)
+        });
+
+        // add new item
+        app.post('/additem', async (req, res) => {
+            const newItems = req.body;
+            const result = await userCollection.insertOne(newItems);
+            res.send(result);
         });
         
     }
