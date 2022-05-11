@@ -106,6 +106,10 @@ app.get('/', (req, res) => {
     res.send('Leptop DB WareHouse')
 })
 
+app.get('/hero', (req, res) => {
+    res.send('Hero DB WareHouse')
+})
+
 app.listen(port, () => {
     console.log(`server running on ${port}`)
 })
