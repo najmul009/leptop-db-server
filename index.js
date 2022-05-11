@@ -9,7 +9,7 @@ app.use(express.json())
 require('dotenv').config();
 
 
-const uri = "mongodb+srv://leptopdb_009:nPGSOXPZGTawdKQM@cluster0.xhtnt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xhtnt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 
@@ -88,7 +88,6 @@ async function run() {
         // user added items
         app.get('/additem', async (req, res) => {
             const email = req.query.email; 
-            console.log(email);          
             const query = { email: email }
             const cursor = leptopsCollection.find(query)
             const myItems = await cursor.toArray()
